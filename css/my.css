@@ -1,0 +1,37 @@
+.bg-purple{
+	background-color: #563d7c;
+}
+
+.border-purple{
+	border: 1px solid #563d7c;
+}
+
+.hide{
+	display: none;
+}
+
+body{
+	margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    background-size: cover;
+	background-image: url("../img/BG.png");
+}
+
+.rockwell{
+	font-family: "Rockwell";
+}
+
+.cg{
+	font-family: "Century Gothic";
+}
+
+@font-face {
+  font-family: "Century Gothic";
+  src: url("../webfonts/CenturyGothic.woff");
+}
+
+#login-icon{
+	background: none;
+	border: none;
+}
