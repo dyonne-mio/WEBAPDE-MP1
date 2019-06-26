@@ -35,3 +35,15 @@ body{
 	background: none;
 	border: none;
 }
+
+.tab-content>.tab-pane {
+  height: 1px;
+  overflow: hidden;
+  display: block;
+  visibility: hidden;
+}
+.tab-content>.active {
+  height: auto;
+  overflow: hidden;
+  visibility: visible;
+}
