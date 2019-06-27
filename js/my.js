@@ -10,6 +10,9 @@ $('#login-btn').click(function() {
         checkIfLoggedIn();
     } else {
         $('#login-error').show();
+        $('#username').val("");
+        $('#password').val("");
+
     }
 });
 
