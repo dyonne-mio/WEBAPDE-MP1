@@ -38,7 +38,7 @@ $('#logout-btn').click(function() {
 
 var audio = document.getElementById("player");
 if (audio) {
-    audio.volume = 0.00;
+    audio.volume = 0.02;
 }
 
 google.charts.load('current', { 'packages': ['bar', 'corechart'] });
