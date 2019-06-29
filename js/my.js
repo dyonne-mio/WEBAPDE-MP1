@@ -140,7 +140,7 @@ var specieSalesByTimeChartOptions = {
 
 function drawChart() {
     var data = google.visualization.arrayToDataTable([
-        ['Burgers', 'Species'],
+        ['Burgers', 'Species'], 
         [0, 0]
     ]);
     burgerBySpeciesChart = new google.visualization.BarChart($('#burger-by-species-chart')[0]);
@@ -259,10 +259,10 @@ function refreshCharts() {
 
         data = [];
 
-        data.push(['Species', 'Sales'/*, { "role": "style" }*/]); //HEADER
+        data.push(['Species', 'Sales' /*, { "role": "style" }*/ ]); //HEADER
 
         $.each(json['species_sales'], function(specie, sales) {
-            data.push([specie, sales /*, getRandomColor() */]);
+            data.push([specie, sales /*, getRandomColor() */ ]);
         });
 
         console.log(data);
@@ -453,7 +453,8 @@ $('#replace-button').click(function() {
 
         localStorage.setItem('charts_data', text);
 
-        alert('Chart data has been uploaded.');
+        swal.fire("Upload complete!", "Data has been uploaded to tables and charts.", "success")
+        //alert('Data has been uploaded.');
 
         refreshCharts();
         refreshTables();
@@ -559,11 +560,34 @@ refreshTables();
 
 $('#clear-button').click(function() {
 
-    var r = confirm("Clear data?");
-    if (r == true) {
+    Swal.fire({
+        title: 'Are you sure you want to clear data?',
+        text: "You won't be able to revert this!",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes'
+    }).then((result) => {
+        if (result.value) {
+            localStorage.removeItem('charts_data');
+            refreshTables();
+            refreshCharts();
+            Swal.fire(
+                'Cleared!',
+                'Data has been cleared.',
+                'success'
+            )
+
+        }
+    })
+    
+
+   //var r = //confirm("Clear data?");
+   /* if (r == true) {
         localStorage.removeItem('charts_data');
         refreshTables();
         refreshCharts();
-    }
+    }*/
 
 });
