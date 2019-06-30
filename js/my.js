@@ -140,7 +140,7 @@ var specieSalesByTimeChartOptions = {
 
 function drawChart() {
     var data = google.visualization.arrayToDataTable([
-        ['Burgers', 'Species'], 
+        ['Burgers', 'Species'],
         [0, 0]
     ]);
     burgerBySpeciesChart = new google.visualization.BarChart($('#burger-by-species-chart')[0]);
@@ -581,13 +581,13 @@ $('#clear-button').click(function() {
 
         }
     })
-    
 
-   //var r = //confirm("Clear data?");
-   /* if (r == true) {
-        localStorage.removeItem('charts_data');
-        refreshTables();
-        refreshCharts();
-    }*/
+
+    //var r = //confirm("Clear data?");
+    /* if (r == true) {
+         localStorage.removeItem('charts_data');
+         refreshTables();
+         refreshCharts();
+     }*/
 
 });
