@@ -36,6 +36,7 @@ $('#logout-btn').click(function() {
     checkIfLoggedIn();
 });
 
+
 var audio = document.getElementById("player");
 if (audio) {
     audio.volume = 0.02;
@@ -275,10 +276,12 @@ function refreshCharts() {
         dates = {};
 
         $('#date-select').html('');
-        $('#date-select').addOpt('Please select a date', '');
+        //$('#date-select').addOpt('Please select a date', '');
+        $('#date-select').datepicker();
+        var date = $('#date-select').datepicker().val();
 
         $.each(json['sales'], function(sale_id, sale) {
-            var date = sale.datetime.split(" ")[0];
+            //    var date = sale.datetime.split(" ")[0];
             var time = sale.datetime.split(" ")[1];
             if (!dates.hasOwnProperty(date)) {
                 dates[date] = [];
@@ -297,7 +300,8 @@ function refreshCharts() {
             });
         });
 
-        $("#date-select").val($("#date-select option:eq(1)").val());
+        //$("#date-select").val($("#date-select option:eq(1)").val());
+        //$("#date-select").val(sale.burger);
         $("#date-select").trigger('change');
     }
 }

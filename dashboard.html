@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+	<!DOCTYPE html>
 <html>
 
 <head>
@@ -13,6 +13,9 @@
     <script type="text/javascript" src="js/loader.js"></script>
     <script type="text/javascript" src="js/datatables.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+  	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  	<link rel="stylesheet" href="https://jqueryui.com/resources/demos/style.css">
     <link rel="apple-touch-icon" sizes="57x57" href="img/apple-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="img/apple-icon-60x60.png">
     <link rel="apple-touch-icon" sizes="72x72" href="img/apple-icon-72x72.png">
@@ -167,9 +170,10 @@
                                     <div class="col-lg-12">
                                         <form class="form-inline" role="form" style="padding-bottom: 20px;">
                                             <div class="form-group">
-                                                <label class="sr-only" for="">Select date:</label>
+                                                <!-- <label class="sr-only" for="">Select date:</label>
                                                 <select name="" id="date-select" class="form-control" required="required">
-                                                    <option value="">Please select a date</option>
+                                                    <option value="">Please select a date</option> -->
+                                                    <input style='max-width: 250px;' readonly="" name="eventdate" placeholder="Event Date" id="date-select" class="form-control">
                                                 </select>
                                             </div>
                                         </form>
