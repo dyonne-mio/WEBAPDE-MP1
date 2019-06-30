@@ -184,6 +184,11 @@ function drawChart() {
 
 var dates = {};
 
+/* DATE PICKER STUFF */
+    $("#date-select").datepicker({dateFormat: "yy-mm-dd"});
+    var date;
+/*end of date picker stuff */       
+
 function refreshCharts() {
     var text = localStorage.getItem('charts_data');
 
@@ -277,11 +282,15 @@ function refreshCharts() {
 
         $('#date-select').html('');
         //$('#date-select').addOpt('Please select a date', '');
-        $('#date-select').datepicker();
-        var date = $('#date-select').datepicker().val();
+        
+        /* date picker caller */
+        $("#date-select").on("change",function(){
+            date = $(this).val();
+        });
 
         $.each(json['sales'], function(sale_id, sale) {
-            //    var date = sale.datetime.split(" ")[0];
+            
+            //var date = sale.datetime.split(" ")[0];
             var time = sale.datetime.split(" ")[1];
             if (!dates.hasOwnProperty(date)) {
                 dates[date] = [];
@@ -298,11 +307,13 @@ function refreshCharts() {
                 specie: sale.species,
                 time: time
             });
+
         });
 
         //$("#date-select").val($("#date-select option:eq(1)").val());
         //$("#date-select").val(sale.burger);
         $("#date-select").trigger('change');
+        
     }
 }
 
