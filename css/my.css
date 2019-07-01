@@ -35,6 +35,11 @@ body {
     src: url("../webfonts/CenturyGothic.woff");
 }
 
+@font-face {
+    font-family: "Krabby Patty";
+    src: url("../webfonts/Krabby Patty.ttf");
+}
+
 #login-icon {
     background: none;
     border: none;
@@ -62,6 +67,7 @@ body {
 }
 
 .card{
+  background-color: #c8c9f1;/*#9DEAFE;*/
     /* background-image: url("../img/counter_purple.png"); */
 }
   

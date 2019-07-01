@@ -36,10 +36,9 @@ $('#logout-btn').click(function() {
     checkIfLoggedIn();
 });
 
-
 var audio = document.getElementById("player");
 if (audio) {
-    audio.volume = 0.02;
+    audio.volume = 0.00;
 }
 
 google.charts.load('current', { 'packages': ['bar', 'corechart'] });
@@ -141,7 +140,7 @@ var specieSalesByTimeChartOptions = {
 
 function drawChart() {
     var data = google.visualization.arrayToDataTable([
-        ['Burgers', 'Species'],
+        ['Burgers', 'Species'], 
         [0, 0]
     ]);
     burgerBySpeciesChart = new google.visualization.BarChart($('#burger-by-species-chart')[0]);
@@ -276,12 +275,10 @@ function refreshCharts() {
         dates = {};
 
         $('#date-select').html('');
-        //$('#date-select').addOpt('Please select a date', '');
-        $('#date-select').datepicker();
-        var date = $('#date-select').datepicker().val();
+        $('#date-select').addOpt('Please select a date', '');
 
         $.each(json['sales'], function(sale_id, sale) {
-            //    var date = sale.datetime.split(" ")[0];
+            var date = sale.datetime.split(" ")[0];
             var time = sale.datetime.split(" ")[1];
             if (!dates.hasOwnProperty(date)) {
                 dates[date] = [];
@@ -300,8 +297,7 @@ function refreshCharts() {
             });
         });
 
-        //$("#date-select").val($("#date-select option:eq(1)").val());
-        //$("#date-select").val(sale.burger);
+        $("#date-select").val($("#date-select option:eq(1)").val());
         $("#date-select").trigger('change');
     }
 }
@@ -585,13 +581,13 @@ $('#clear-button').click(function() {
 
         }
     })
+    
 
-
-    //var r = //confirm("Clear data?");
-    /* if (r == true) {
-         localStorage.removeItem('charts_data');
-         refreshTables();
-         refreshCharts();
-     }*/
+   //var r = //confirm("Clear data?");
+   /* if (r == true) {
+        localStorage.removeItem('charts_data');
+        refreshTables();
+        refreshCharts();
+    }*/
 
 });
