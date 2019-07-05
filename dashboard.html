@@ -6,15 +6,17 @@
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="css/my.css">
     <link rel="stylesheet" type="text/css" href="css/datatables.min.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-datepicker3.min.css">
     <link rel="stylesheet" type="text/css" href="css/all.css">
     <script type="text/javascript" src="js/popper.min.js"></script>
     <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
     <script type="text/javascript" src="js/bootstrap.bundle.min.js"></script>
     <script type="text/javascript" src="js/loader.js"></script>
     <script type="text/javascript" src="js/datatables.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap-datepicker.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
-  	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  	<!-- <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"> -->
   	<link rel="stylesheet" href="https://jqueryui.com/resources/demos/style.css">
     <link rel="apple-touch-icon" sizes="57x57" href="img/apple-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="img/apple-icon-60x60.png">
@@ -173,9 +175,7 @@
                                         <form class="form-inline" role="form" style="padding-bottom: 20px;">
                                             <div class="form-group">
                                                 <label class="sr-only" for="">Select date:</label>
-                                                <select name="" id="date-select" class="form-control" required="required">
-                                                    <option value="">Please select a date</option>
-                                                </select>
+                                                <input id="date-select" type="text" class="form-control" style="margin-top: 20px;">
                                             </div>
                                         </form>
                                         <div id="burger-sales-by-time-chart"></div>

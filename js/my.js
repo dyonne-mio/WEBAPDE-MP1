@@ -183,8 +183,16 @@ function drawChart() {
 
 var dates = {};
 
+String.prototype.padZero= function(len, c){
+    var s= this, c= c || '0';
+    while(s.length< len) s= c+ s;
+    return s;
+}
+
 function refreshCharts() {
     var text = localStorage.getItem('charts_data');
+
+    $('#date-select').datepicker('destroy');
 
     dates = {};
 
@@ -274,15 +282,20 @@ function refreshCharts() {
 
         dates = {};
 
-        $('#date-select').html('');
-        $('#date-select').addOpt('Please select a date', '');
+        //$('#date-select').html('');
+        //$('#date-select').addOpt('Please select a date', '');
+
+        var firstDate = null;
 
         $.each(json['sales'], function(sale_id, sale) {
             var date = sale.datetime.split(" ")[0];
             var time = sale.datetime.split(" ")[1];
             if (!dates.hasOwnProperty(date)) {
                 dates[date] = [];
-                $('#date-select').addOpt(date, date);
+                if(firstDate == null){
+                    firstDate = date;
+                }
+                //$('#date-select').addOpt(date, date);
             }
             var hour = time.split(':')[0];
 
@@ -297,8 +310,27 @@ function refreshCharts() {
             });
         });
 
-        $("#date-select").val($("#date-select option:eq(1)").val());
-        $("#date-select").trigger('change');
+        $('#date-select').datepicker({
+            format: "yyyy-mm-dd",
+            beforeShowDay: function(date){
+                var fullDate = date.getFullYear() + '-' + (date.getMonth() + 1).toString().padZero(2) + '-' + date.getDate().toString().padZero(2);
+                if(dates.hasOwnProperty(fullDate)){
+                    return {
+                        enabled: true
+                    };
+                }
+                return {
+                    enabled: false
+                };
+            }
+        });
+
+        if(firstDate != null){
+            $('#date-select').datepicker('update', firstDate);
+        }
+
+        //$("#date-select").val($("#date-select option:eq(1)").val());
+        //$("#date-select").trigger('change');
     }
 }
 
