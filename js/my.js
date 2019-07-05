@@ -38,7 +38,7 @@ $('#logout-btn').click(function() {
 
 var audio = document.getElementById("player");
 if (audio) {
-    audio.volume = 0.00;
+    audio.volume = 0.02;
 }
 
 google.charts.load('current', { 'packages': ['bar', 'corechart'] });
@@ -189,8 +189,12 @@ String.prototype.padZero= function(len, c){
     return s;
 }
 
+var currentJsonData = null;
+
 function refreshCharts() {
     var text = localStorage.getItem('charts_data');
+
+    currentJsonData = $.parseJSON(text);
 
     $('#date-select').datepicker('destroy');
 
@@ -273,8 +277,6 @@ function refreshCharts() {
             data.push([specie, sales /*, getRandomColor() */ ]);
         });
 
-        console.log(data);
-
         data = google.visualization.arrayToDataTable(data);
         salesBySpecieChart.draw(data, google.charts.Bar.convertOptions(saleBySpecieOption));
 
@@ -291,7 +293,7 @@ function refreshCharts() {
             var date = sale.datetime.split(" ")[0];
             var time = sale.datetime.split(" ")[1];
             if (!dates.hasOwnProperty(date)) {
-                dates[date] = [];
+                dates[date] = {};
                 if(firstDate == null){
                     firstDate = date;
                 }
@@ -414,14 +416,17 @@ $('#date-select').on('change', function() {
     var dateParts = $(this).val().split('-');
 
     $.each(dates[$(this).val()], function(time, sales) {
+
         if (!time) {
             return true;
         }
         if (!sales) {
             return true;
         }
-        var row = [new Date(dateParts[0], dateParts[1], dateParts[2], time), sales.length];
-        var specieSalesRow = [new Date(dateParts[0], dateParts[1], dateParts[2], time), sales.length];
+
+        var row = [new Date(dateParts[0], dateParts[1]-1, dateParts[2], time), sales.length];
+
+        var specieSalesRow = [new Date(dateParts[0], dateParts[1]-1, dateParts[2], time), sales.length];
 
 
         $.each(burgerTypes, function(i, burger) {
@@ -623,3 +628,102 @@ $('#clear-button').click(function() {
     }*/
 
 });
+
+$('#merge-button').click(function(){
+    if (!$('#uploader').val()) {
+        return;
+    }
+
+    var reader = new FileReader();
+
+    reader.onload = function(evt) {
+        var text = evt.target.result;
+
+        var json = $.parseJSON(text); //json to be merged
+
+        var currentData = localStorage.getItem('charts_data');
+
+        if(text){
+            swal.fire("Merge complete!", "Data has been merged.", "success");
+
+            var currentJson = $.parseJSON(currentData);
+
+            console.log(json);
+            console.log(currentJson);
+
+            if(json.hasOwnProperty('burger_by_species')){
+                $.each(json['burger_by_species'], function(burger, sales){
+                    if(currentJson['burger_by_species'].hasOwnProperty(burger)){
+                        $.each(json['burger_by_species'][burger], function(specie, salesValue){
+                            if(currentJson['burger_by_species'][burger].hasOwnProperty(specie)){
+                                currentJson['burger_by_species'][burger][specie] += salesValue;
+                            }else{
+                                currentJson['burger_by_species'][burger][specie] = salesValue;
+                            }
+                        });
+                    }else{
+                        currentJson['burger_by_species'][burger] = sales;
+                    }
+                });
+            }
+
+            if(json.hasOwnProperty('burger_sales')){
+                $.each(json['burger_sales'], function(burger, sales){
+                    if(currentJson['burger_sales'].hasOwnProperty(burger)){
+                        currentJson['burger_sales'][burger] += sales;
+                    }else{
+                        currentJson['burger_sales'][burger] = sales;
+                    }
+                });
+            }
+
+            if(json.hasOwnProperty('species_sales')){
+                $.each(json['species_sales'], function(specie, sales){
+                    if(currentJson['species_sales'].hasOwnProperty(specie)){
+                        currentJson['species_sales'][specie] += sales;
+                    }else{
+                        currentJson['species_sales'][specie] = sales;
+                    }
+                });
+            }
+
+            if(json.hasOwnProperty('sales')){
+                $.each(json['sales'], function(id, saleInfo){
+
+                    var id = makeid(10);
+
+                    while(currentJson['sales'].hasOwnProperty(id)){
+                        id = makeid(10);
+                    }
+
+                    currentJson['sales'][id] = saleInfo;
+                });
+            }
+
+            currentData = JSON.stringify(currentJson);
+            localStorage.setItem('charts_data', currentData);
+        }else{
+            localStorage.setItem('charts_data', text);
+        }
+
+        //localStorage.setItem('charts_data', text);
+
+        //swal.fire("Upload complete!", "Data has been uploaded to tables and charts.", "success")
+        //alert('Data has been uploaded.');
+
+        refreshCharts();
+        refreshTables();
+    }
+
+    reader.readAsText($('#uploader')[0].files[0]);
+});
+
+function makeid(length) {
+   var result           = '';
+   var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+   var charactersLength = characters.length;
+   for ( var i = 0; i < length; i++ ) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+   }
+   return result;
+}
