@@ -82,3 +82,9 @@ body {
     background-color: #563d7c!important;
     border-color: #563d7c!important;
 }
+
+#clear-button:hover{
+    color: #fff;
+    background-color: #dc3545!important;
+    border-color: #dc3545;
+}
