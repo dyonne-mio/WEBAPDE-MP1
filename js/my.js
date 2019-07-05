@@ -228,17 +228,33 @@ function refreshCharts() {
 
         //BURGER BY SPECIE DATA CONVERSION
 
+        var colors2 = [
+            '#7A9AE5', '#363475', '#1662AC', '#1E4696', '#6E5AB9', '#47A5EE', '#5683DC',
+            '#84B3B3', '#297060', '#255232', '#405F60', '#40BA97', '#418753', '#64A29E',
+            '#D59441', '#825B34', '#655B42', '#76451A', '#C5976D', '#A49578', '#BF762B',
+        ];
+
+        var j = 0;
+
         $.each(json['burger_by_species'], function(burger, sales_by_species) {
             var saleEntry = [];
             saleEntry.push(burger);
             $.each(sales_by_species, function(specie, sale) {
                 if (species.indexOf(specie) == -1) {
                     species.push(specie);
+                    species.push({role: 'style'});
                 }
                 saleEntry.push(sale);
+                saleEntry.push(colors2[j]);
+                j += 1;
+                if(j == colors2.length){
+                    j = 0;
+                }
             });
-            saleEnties.push(saleEntry)
+            saleEnties.push(saleEntry);
         });
+
+        console.log(species);
 
         data.push(species);
 
@@ -256,10 +272,17 @@ function refreshCharts() {
 
         data = [];
 
-        data.push(['Burger', 'Sales']) //HEADER
+        data.push(['Burger', 'Sales', {role:'style'}]) //HEADER
+
+        var color3 = ['#4652A0', '#E99EB0', '#142B70'];
+        var k = 0;
 
         $.each(json['burger_sales'], function(burger, sales) {
-            data.push([burger, sales]);
+            data.push([burger, sales, color3[k]]);
+            k+=1;
+            if(k == color3.length){
+                k = 0;
+            }
         });
 
         console.log(data);
@@ -271,10 +294,18 @@ function refreshCharts() {
 
         data = [];
 
-        data.push(['Species', 'Sales' /*, { "role": "style" }*/ ]); //HEADER
+        data.push(['Species', 'Sales' , { "role": "style" } ]); //HEADER
+
+        var colors = ['#AEB6DF', '#AE89AB', '#9AB6BA', '#D1BAAF', '#D6A9D6', '#B492D9', '#90A1E6'];
+
+        var i = 0;
 
         $.each(json['species_sales'], function(specie, sales) {
-            data.push([specie, sales /*, getRandomColor() */ ]);
+            data.push([specie, sales , /*getRandomColor()*/ colors[i]  ]);
+            i += 1;
+            if(i == colors.length){
+                i = 0;
+            }
         });
 
         data = google.visualization.arrayToDataTable(data);
@@ -644,7 +675,7 @@ $('#merge-button').click(function(){
         var currentData = localStorage.getItem('charts_data');
 
         if(text){
-            swal.fire("Merge complete!", "Data has been merged.", "success");
+            swal.fire("Merged complete!", "Data has been merged.", "success");
 
             var currentJson = $.parseJSON(currentData);
 
