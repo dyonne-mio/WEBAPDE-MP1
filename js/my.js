@@ -675,7 +675,7 @@ $('#merge-button').click(function(){
         var currentData = localStorage.getItem('charts_data');
 
         if(text){
-            swal.fire("Merged complete!", "Data has been merged.", "success");
+            swal.fire("Merge complete!", "Data has been merged.", "success");
 
             var currentJson = $.parseJSON(currentData);
 
