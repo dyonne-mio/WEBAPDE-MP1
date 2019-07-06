@@ -88,3 +88,34 @@ body {
     background-color: #dc3545!important;
     border-color: #dc3545;
 }
+
+a {
+    color: #563d7c;
+    text-decoration: none;
+    background-color: transparent;
+}
+
+.page-item.active .page-link {
+    z-index: 1;
+    color: #fff;
+    background-color: #573e7c;
+    border-color: #563d7c;
+}
+
+.page-link {
+    position: relative;
+    display: block;
+    padding: .5rem .75rem;
+    margin-left: -1px;
+    line-height: 1.25;
+    color: #563d7c;
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+    font-family: "Rockwell";
+}
+
+.nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+    color: #6F448A;
+    background-color: #fff;
+    border-color: #dee2e6 #dee2e6 #fff;
+}

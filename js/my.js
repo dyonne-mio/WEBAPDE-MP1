@@ -52,6 +52,7 @@ var specieSalesByTimeChart = null;
 
 var burgerBySpeciesChartOptions = {
     title: 'Burger by Specie',
+    titleTextStyle: { color: '#573e7c', fontName: 'Century Gothic', bold: true, fontSize: '20' },
     theme: 'material',
     animation: {
         startup: true,
@@ -62,14 +63,18 @@ var burgerBySpeciesChartOptions = {
     bar: { groupWidth: "80%" },
     vAxis: {
         title: 'Burgers',
+        titleTextStyle: {  fontName: 'Century Gothic', fontSize: '16' },
     },
     hAxis: {
         title: 'Sales',
+        titleTextStyle: {  fontName: 'Century Gothic', fontSize: '16' }, 
     }
+
 };
 
 var burgerSalesChartOptions = {
     title: 'Burger Sales',
+    titleTextStyle: { color: '#573e7c', fontName: 'Century Gothic', bold: true, fontSize: '20' },
     theme: 'material',
     height: 400,
     animation: {
@@ -79,14 +84,17 @@ var burgerSalesChartOptions = {
     },
     vAxis: {
         title: 'Burgers',
+        titleTextStyle: {  fontName: 'Century Gothic', fontSize: '16' },
     },
     hAxis: {
         title: 'Sales',
+        titleTextStyle: {  fontName: 'Century Gothic', fontSize: '16' }, 
     }
 };
 
 var saleBySpecieOption = {
     title: 'Sales by Specie',
+    titleTextStyle: { color: '#573e7c', fontName: 'Century Gothic', bold: true, fontSize: '20' },
     theme: 'material',
     height: 400,
     animation: {
@@ -96,14 +104,17 @@ var saleBySpecieOption = {
     },
     vAxis: {
         title: 'Sales',
+        titleTextStyle: {  fontName: 'Century Gothic', fontSize: '16' }, 
     },
     hAxis: {
         title: 'Species',
+        titleTextStyle: {  fontName: 'Century Gothic', fontSize: '16' }, 
     }
 };
 
 var burgerSalesByTimeChartOptions = {
     title: 'Burger sales by date',
+    titleTextStyle: { color: '#573e7c', fontName: 'Century Gothic', bold: true, fontSize: '20' },
     theme: 'material',
     height: 400,
     animation: {
@@ -113,15 +124,18 @@ var burgerSalesByTimeChartOptions = {
     },
     vAxis: {
         title: 'Sales',
+        titleTextStyle: {  fontName: 'Century Gothic', fontSize: '16' },
     },
     hAxis: {
         title: 'Time',
+        titleTextStyle: {  fontName: 'Century Gothic', fontSize: '16' },
         format: 'hh a'
     }
 }
 
 var specieSalesByTimeChartOptions = {
     title: 'Specie sales by date',
+    titleTextStyle: { color: '#573e7c', fontName: 'Century Gothic', bold: true, fontSize: '20' },
     theme: 'material',
     height: 400,
     animation: {
@@ -131,9 +145,11 @@ var specieSalesByTimeChartOptions = {
     },
     vAxis: {
         title: 'Sales',
+        titleTextStyle: {  fontName: 'Century Gothic', fontSize: '16' },
     },
     hAxis: {
         title: 'Time',
+        titleTextStyle: {  fontName: 'Century Gothic', fontSize: '16' },
         format: 'hh a'
     }
 }
