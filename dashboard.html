@@ -16,8 +16,9 @@
     <script type="text/javascript" src="js/bootstrap-datepicker.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
     <link rel="stylesheet" href="https://jqueryui.com/resources/demos/style.css">
-    <link rel="icon" href="https://www.pinclipart.com/picdir/big/336-3362839_the-krusty-krab-krusty-krab-clipart.png">
-  	<!-- <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+   <link rel="icon" href="https://vignette.wikia.nocookie.net/spongebob/images/5/54/Krusty_Krab_hat_upright_stock_art.png/revision/latest?cb=20181228020634"> 
+    <!-- <link rel="icon" href="https://www.pinclipart.com/picdir/big/336-3362839_the-krusty-krab-krusty-krab-clipart.png">
+  	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"> -->
     <link rel="manifest" href="img/manifest.json">
     <meta name="msapplication-TileColor" content="#ffffff">
@@ -71,6 +72,7 @@
                                 <br>
                                 <div style="min-height: 400px;">
                                     <form class="form-block" style="text-align: center;">
+                                        <p class="rockwell" style="color: #581716; font-size: 18px;">Please choose a file then click the <u><b>UPLOAD</b></u> or <u><b>MERGE</b></u> button! You can also click the <u><b>CLEAR</b></u> button to remove the current data.</p>
                                         <img src="img/spongebob-hearts.gif")" style="width: 15%; height:15%; object-fit: contain; position:absolute; TOP:400px;">
                                         <img src="img/krusty_krab_establishment.png")"><br>
                                         <label class="up krabbypatty" style="color: #581716; font-size: 1.875em; font-weight: bold; ">UPLOAD A FILE:</label>
@@ -86,7 +88,7 @@
                             <div class="tab-pane fade" id="nav-tables" role="tabpanel" aria-labelledby="nav-tables-tab">
                                 <br>
                                 <nav>
-                                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                                    <div class="nav nav-tabs" id="nav-tab" role="tablist" >
                                         <a class="nav-item nav-link active" id="nav-bbs-tab" data-toggle="tab" href="#nav-bbs" role="tab" aria-controls="nav-bbs" aria-selected="true"><span class="fa fa-pastafarianism"></span> Burger By Specie</a>
                                         <a class="nav-item nav-link" id="nav-bs-tab" data-toggle="tab" href="#nav-bs" role="tab" aria-controls="nav-bs" aria-selected="false"><span class="fa fa-hamburger"></span> Burger Sales</a>
                                         <a class="nav-item nav-link" id="nav-ss-tab" data-toggle="tab" href="#nav-ss" role="tab" aria-controls="nav-bs" aria-selected="false"><span class="fa fa-fish"></span> Specie Sales</a>
@@ -164,6 +166,12 @@
                                             <div class="form-group">
                                                 <label class="sr-only" for="">Select date:</label>
                                                 <input id="date-select" type="text" class="form-control" style="margin-top: 20px;">
+                                            </div>
+                                            <div class="form-group" style="margin-top: 19px;">
+                                                <select id="chart-type" class="form-control">
+                                                    <option selected value="1">Line</option>
+                                                    <option value="2">Bar</option>
+                                                </select>
                                             </div>
                                         </form>
                                         <div id="burger-sales-by-time-chart"></div>

@@ -12,7 +12,6 @@ $('#login-btn').click(function() {
         $('#login-error').show();
         $('#username').val("");
         $('#password').val("");
-
     }
 });
 
@@ -41,7 +40,7 @@ if (audio) {
     audio.volume = 0.02;
 }
 
-google.charts.load('current', { 'packages': ['bar', 'corechart'] });
+google.charts.load('current', { 'packages': ['bar', 'corechart', 'line'] });
 google.charts.setOnLoadCallback(drawChart);
 
 var burgerBySpeciesChart = null;
@@ -63,11 +62,11 @@ var burgerBySpeciesChartOptions = {
     bar: { groupWidth: "80%" },
     vAxis: {
         title: 'Burgers',
-        titleTextStyle: {  fontName: 'Century Gothic', fontSize: '16' },
+        titleTextStyle: { fontName: 'Century Gothic', fontSize: '16' },
     },
     hAxis: {
         title: 'Sales',
-        titleTextStyle: {  fontName: 'Century Gothic', fontSize: '16' }, 
+        titleTextStyle: { fontName: 'Century Gothic', fontSize: '16' },
     }
 
 };
@@ -84,11 +83,11 @@ var burgerSalesChartOptions = {
     },
     vAxis: {
         title: 'Burgers',
-        titleTextStyle: {  fontName: 'Century Gothic', fontSize: '16' },
+        titleTextStyle: { fontName: 'Century Gothic', fontSize: '16' },
     },
     hAxis: {
         title: 'Sales',
-        titleTextStyle: {  fontName: 'Century Gothic', fontSize: '16' }, 
+        titleTextStyle: { fontName: 'Century Gothic', fontSize: '16' },
     }
 };
 
@@ -104,11 +103,11 @@ var saleBySpecieOption = {
     },
     vAxis: {
         title: 'Sales',
-        titleTextStyle: {  fontName: 'Century Gothic', fontSize: '16' }, 
+        titleTextStyle: { fontName: 'Century Gothic', fontSize: '16' },
     },
     hAxis: {
         title: 'Species',
-        titleTextStyle: {  fontName: 'Century Gothic', fontSize: '16' }, 
+        titleTextStyle: { fontName: 'Century Gothic', fontSize: '16' },
     }
 };
 
@@ -124,11 +123,11 @@ var burgerSalesByTimeChartOptions = {
     },
     vAxis: {
         title: 'Sales',
-        titleTextStyle: {  fontName: 'Century Gothic', fontSize: '16' },
+        titleTextStyle: { fontName: 'Century Gothic', fontSize: '16' },
     },
     hAxis: {
         title: 'Time',
-        titleTextStyle: {  fontName: 'Century Gothic', fontSize: '16' },
+        titleTextStyle: { fontName: 'Century Gothic', fontSize: '16' },
         format: 'hh a'
     }
 }
@@ -145,18 +144,18 @@ var specieSalesByTimeChartOptions = {
     },
     vAxis: {
         title: 'Sales',
-        titleTextStyle: {  fontName: 'Century Gothic', fontSize: '16' },
+        titleTextStyle: { fontName: 'Century Gothic', fontSize: '16' },
     },
     hAxis: {
         title: 'Time',
-        titleTextStyle: {  fontName: 'Century Gothic', fontSize: '16' },
+        titleTextStyle: { fontName: 'Century Gothic', fontSize: '16' },
         format: 'hh a'
     }
 }
 
 function drawChart() {
     var data = google.visualization.arrayToDataTable([
-        ['Burgers', 'Species'], 
+        ['Burgers', 'Species'],
         [0, 0]
     ]);
     burgerBySpeciesChart = new google.visualization.BarChart($('#burger-by-species-chart')[0]);
@@ -184,7 +183,7 @@ function drawChart() {
     data.addColumn('timeofday', 'Time of Day');
     data.addColumn('number', 'Sales');
 
-    burgerSalesByTimeChart = new google.visualization.ColumnChart($('#burger-sales-by-time-chart')[0]);
+    burgerSalesByTimeChart = new google.visualization.LineChart($('#burger-sales-by-time-chart')[0]);
     burgerSalesByTimeChart.draw(data, burgerSalesByTimeChartOptions);
 
     data = new google.visualization.DataTable();
@@ -192,16 +191,17 @@ function drawChart() {
     data.addColumn('timeofday', 'Time of Day');
     data.addColumn('number', 'Sales');
 
-    specieSalesByTimeChart = new google.visualization.ColumnChart($('#specie-sales-by-time-chart')[0]);
+    specieSalesByTimeChart = new google.visualization.LineChart($('#specie-sales-by-time-chart')[0]);
 
     refreshCharts();
 }
 
 var dates = {};
 
-String.prototype.padZero= function(len, c){
-    var s= this, c= c || '0';
-    while(s.length< len) s= c+ s;
+String.prototype.padZero = function(len, c) {
+    var s = this,
+        c = c || '0';
+    while (s.length < len) s = c + s;
     return s;
 }
 
@@ -258,12 +258,12 @@ function refreshCharts() {
             $.each(sales_by_species, function(specie, sale) {
                 if (species.indexOf(specie) == -1) {
                     species.push(specie);
-                    species.push({role: 'style'});
+                    //species.push({role: 'style'});
                 }
                 saleEntry.push(sale);
-                saleEntry.push(colors2[j]);
+                //saleEntry.push(colors2[j]);
                 j += 1;
-                if(j == colors2.length){
+                if (j == colors2.length) {
                     j = 0;
                 }
             });
@@ -288,15 +288,15 @@ function refreshCharts() {
 
         data = [];
 
-        data.push(['Burger', 'Sales', {role:'style'}]) //HEADER
+        data.push(['Burger', 'Sales', { role: 'style' }]) //HEADER
 
         var color3 = ['#4652A0', '#E99EB0', '#142B70'];
         var k = 0;
 
         $.each(json['burger_sales'], function(burger, sales) {
             data.push([burger, sales, color3[k]]);
-            k+=1;
-            if(k == color3.length){
+            k += 1;
+            if (k == color3.length) {
                 k = 0;
             }
         });
@@ -310,16 +310,16 @@ function refreshCharts() {
 
         data = [];
 
-        data.push(['Species', 'Sales' , { "role": "style" } ]); //HEADER
+        data.push(['Species', 'Sales', { "role": "style" }]); //HEADER
 
         var colors = ['#AEB6DF', '#AE89AB', '#9AB6BA', '#D1BAAF', '#D6A9D6', '#B492D9', '#90A1E6'];
 
         var i = 0;
 
         $.each(json['species_sales'], function(specie, sales) {
-            data.push([specie, sales , /*getRandomColor()*/ colors[i]  ]);
+            data.push([specie, sales, /*getRandomColor()*/ colors[i]]);
             i += 1;
-            if(i == colors.length){
+            if (i == colors.length) {
                 i = 0;
             }
         });
@@ -341,7 +341,7 @@ function refreshCharts() {
             var time = sale.datetime.split(" ")[1];
             if (!dates.hasOwnProperty(date)) {
                 dates[date] = {};
-                if(firstDate == null){
+                if (firstDate == null) {
                     firstDate = date;
                 }
                 //$('#date-select').addOpt(date, date);
@@ -361,9 +361,9 @@ function refreshCharts() {
 
         $('#date-select').datepicker({
             format: "yyyy-mm-dd",
-            beforeShowDay: function(date){
+            beforeShowDay: function(date) {
                 var fullDate = date.getFullYear() + '-' + (date.getMonth() + 1).toString().padZero(2) + '-' + date.getDate().toString().padZero(2);
-                if(dates.hasOwnProperty(fullDate)){
+                if (dates.hasOwnProperty(fullDate)) {
                     return {
                         enabled: true
                     };
@@ -374,7 +374,7 @@ function refreshCharts() {
             }
         });
 
-        if(firstDate != null){
+        if (firstDate != null) {
             $('#date-select').datepicker('update', firstDate);
         }
 
@@ -383,12 +383,15 @@ function refreshCharts() {
     }
 }
 
+$('#chart-type').on('change', function(){
+    $('#date-select').trigger('change');
+});
+
 $('#date-select').on('change', function() {
 
 
     var data = new google.visualization.DataTable();
     var dataSpecie = new google.visualization.DataTable();
-
 
     data.addColumn('datetime', 'Time of Day');
     data.addColumn('number', 'Sales');
@@ -396,8 +399,18 @@ $('#date-select').on('change', function() {
     dataSpecie.addColumn('datetime', 'Time of Day');
     dataSpecie.addColumn('number', 'Sales');
 
-    burgerSalesByTimeChart.draw(data, google.charts.Bar.convertOptions(burgerSalesByTimeChartOptions));
-    specieSalesByTimeChart.draw(dataSpecie, google.charts.Bar.convertOptions(specieSalesByTimeChartOptions));
+    var chartType = $('#chart-type').val();
+
+    if(chartType == 1){
+        burgerSalesByTimeChart = new google.visualization.LineChart($('#burger-sales-by-time-chart')[0]);
+        specieSalesByTimeChart = new google.visualization.LineChart($('#specie-sales-by-time-chart')[0]);
+    }else{
+        burgerSalesByTimeChart = new google.visualization.ColumnChart($('#burger-sales-by-time-chart')[0]);
+        specieSalesByTimeChart = new google.visualization.ColumnChart($('#specie-sales-by-time-chart')[0]);
+    }
+
+    burgerSalesByTimeChart.draw(data, google.charts.Line.convertOptions(burgerSalesByTimeChartOptions));
+    specieSalesByTimeChart.draw(dataSpecie, google.charts.Line.convertOptions(specieSalesByTimeChartOptions));
 
 
     if (!$(this).val()) {
@@ -471,10 +484,9 @@ $('#date-select').on('change', function() {
             return true;
         }
 
-        var row = [new Date(dateParts[0], dateParts[1]-1, dateParts[2], time), sales.length];
+        var row = [new Date(dateParts[0], dateParts[1] - 1, dateParts[2], parseInt(time)), sales.length];
 
-        var specieSalesRow = [new Date(dateParts[0], dateParts[1]-1, dateParts[2], time), sales.length];
-
+        var specieSalesRow = [new Date(dateParts[0], dateParts[1] - 1, dateParts[2], parseInt(time)), sales.length];
 
         $.each(burgerTypes, function(i, burger) {
             var burgerSold = 0;
@@ -496,11 +508,20 @@ $('#date-select').on('change', function() {
         specieSalesByTimeRows.push(specieSalesRow);
     });
 
+    rows = rows.sort(function(a,b){
+      return new Date(a[0]) - new Date(b[0]);
+    });
+
     data.addRows(rows);
+
+    specieSalesByTimeRows = specieSalesByTimeRows.sort(function(a,b){
+      return new Date(a[0]) - new Date(b[0]);
+    });
+
     dataSpecie.addRows(specieSalesByTimeRows);
 
-    burgerSalesByTimeChart.draw(data, google.charts.Bar.convertOptions(burgerSalesByTimeChartOptions));
-    specieSalesByTimeChart.draw(dataSpecie, google.charts.Bar.convertOptions(specieSalesByTimeChartOptions));
+    burgerSalesByTimeChart.draw(data, google.charts.Line.convertOptions(burgerSalesByTimeChartOptions));
+    specieSalesByTimeChart.draw(dataSpecie, google.charts.Line.convertOptions(specieSalesByTimeChartOptions));
 
 });
 
@@ -665,18 +686,18 @@ $('#clear-button').click(function() {
 
         }
     })
-    
 
-   //var r = //confirm("Clear data?");
-   /* if (r == true) {
-        localStorage.removeItem('charts_data');
-        refreshTables();
-        refreshCharts();
-    }*/
+
+    //var r = //confirm("Clear data?");
+    /* if (r == true) {
+         localStorage.removeItem('charts_data');
+         refreshTables();
+         refreshCharts();
+     }*/
 
 });
 
-$('#merge-button').click(function(){
+$('#merge-button').click(function() {
     if (!$('#uploader').val()) {
         return;
     }
@@ -690,7 +711,7 @@ $('#merge-button').click(function(){
 
         var currentData = localStorage.getItem('charts_data');
 
-        if(text){
+        if (text) {
             swal.fire("Merge complete!", "Data has been merged.", "success");
 
             var currentJson = $.parseJSON(currentData);
@@ -698,48 +719,48 @@ $('#merge-button').click(function(){
             console.log(json);
             console.log(currentJson);
 
-            if(json.hasOwnProperty('burger_by_species')){
-                $.each(json['burger_by_species'], function(burger, sales){
-                    if(currentJson['burger_by_species'].hasOwnProperty(burger)){
-                        $.each(json['burger_by_species'][burger], function(specie, salesValue){
-                            if(currentJson['burger_by_species'][burger].hasOwnProperty(specie)){
+            if (json.hasOwnProperty('burger_by_species')) {
+                $.each(json['burger_by_species'], function(burger, sales) {
+                    if (currentJson['burger_by_species'].hasOwnProperty(burger)) {
+                        $.each(json['burger_by_species'][burger], function(specie, salesValue) {
+                            if (currentJson['burger_by_species'][burger].hasOwnProperty(specie)) {
                                 currentJson['burger_by_species'][burger][specie] += salesValue;
-                            }else{
+                            } else {
                                 currentJson['burger_by_species'][burger][specie] = salesValue;
                             }
                         });
-                    }else{
+                    } else {
                         currentJson['burger_by_species'][burger] = sales;
                     }
                 });
             }
 
-            if(json.hasOwnProperty('burger_sales')){
-                $.each(json['burger_sales'], function(burger, sales){
-                    if(currentJson['burger_sales'].hasOwnProperty(burger)){
+            if (json.hasOwnProperty('burger_sales')) {
+                $.each(json['burger_sales'], function(burger, sales) {
+                    if (currentJson['burger_sales'].hasOwnProperty(burger)) {
                         currentJson['burger_sales'][burger] += sales;
-                    }else{
+                    } else {
                         currentJson['burger_sales'][burger] = sales;
                     }
                 });
             }
 
-            if(json.hasOwnProperty('species_sales')){
-                $.each(json['species_sales'], function(specie, sales){
-                    if(currentJson['species_sales'].hasOwnProperty(specie)){
+            if (json.hasOwnProperty('species_sales')) {
+                $.each(json['species_sales'], function(specie, sales) {
+                    if (currentJson['species_sales'].hasOwnProperty(specie)) {
                         currentJson['species_sales'][specie] += sales;
-                    }else{
+                    } else {
                         currentJson['species_sales'][specie] = sales;
                     }
                 });
             }
 
-            if(json.hasOwnProperty('sales')){
-                $.each(json['sales'], function(id, saleInfo){
+            if (json.hasOwnProperty('sales')) {
+                $.each(json['sales'], function(id, saleInfo) {
 
                     var id = makeid(10);
 
-                    while(currentJson['sales'].hasOwnProperty(id)){
+                    while (currentJson['sales'].hasOwnProperty(id)) {
                         id = makeid(10);
                     }
 
@@ -749,7 +770,7 @@ $('#merge-button').click(function(){
 
             currentData = JSON.stringify(currentJson);
             localStorage.setItem('charts_data', currentData);
-        }else{
+        } else {
             localStorage.setItem('charts_data', text);
         }
 
@@ -766,11 +787,11 @@ $('#merge-button').click(function(){
 });
 
 function makeid(length) {
-   var result           = '';
-   var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-   var charactersLength = characters.length;
-   for ( var i = 0; i < length; i++ ) {
-      result += characters.charAt(Math.floor(Math.random() * charactersLength));
-   }
-   return result;
+    var result = '';
+    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for (var i = 0; i < length; i++) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
 }
