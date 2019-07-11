@@ -1,12 +1,20 @@
+//Handles login button event
 $('#login-btn').click(function() {
+    //get username and password values from DOM
     var username = $('#username').val();
     var password = $('#password').val();
 
     console.log(username);
     console.log(password);
 
+    //check for username/password validity
     if (username == "admin" && password == "p@ssword") {
+        
+        //if correct, set a key in localStorage named "login" with value of 1
+        //it will be the flag if the user is logged in or not
         localStorage.setItem("login", 1);
+
+        //after setting the flag, check login status
         checkIfLoggedIn();
     } else {
         $('#login-error').show();
@@ -16,39 +24,76 @@ $('#login-btn').click(function() {
 });
 
 function checkIfLoggedIn() {
+
+    //get the value of the login flag from localStorage with the key "login"
     var loginStatus = localStorage.getItem('login');
+
+    //if the value of the flag is 1, then someone has logged in, redirect them to dashboard.html
     if (loginStatus == 1) {
-        if (!window.location.href.includes("dashboard.html")) {
+        //but first, check if the user already in dashboard.html before redirecting
+        //to avoid infinite redirections
+        if (!window.location.href.includes("dashboard.html")) { //checks if the url contains the keyword "dashboard.html"
+            //if the url does not contain dashboard.html, then redirect to dashboard.html
             window.location.href = "dashboard.html";
         }
-    } else {
-        if (!window.location.href.includes("index.html")) {
+    } else { //else redirect to index.html or the login page
+        //but first, check if the user already in index.html before redirecting
+        //to avoid infinite redirections
+        if (!window.location.href.includes("index.html")) { //checks if the url contains the keyword "index.html"
+            //if the url does not contain index.html, then redirect to index.html
             window.location.href = "index.html";
         }
     }
 }
 
+//initial check if a user is logged in or not
 checkIfLoggedIn();
 
+//event handler for logout button
 $('#logout-btn').click(function() {
+    //if clicked, then clear the login flag from localStorage with the key "login"
     localStorage.removeItem("login");
+    //after clearing the "login" key, run the login check
+    //to redirect user to index.html, since the "login" flag from localStorage is now cleared or not 1
     checkIfLoggedIn();
 });
 
+//set the volume for the background music
+//get the document element
 var audio = document.getElementById("player");
 if (audio) {
-    audio.volume = 0.02;
+    //set the volume property
+    audio.volume = 0.05;
 }
 
+//google charts api
+//load the following packages, 'bar','line' because we are going to use this charts in this project
+//also load corecharts so we can use basic charts api
 google.charts.load('current', { 'packages': ['bar', 'corechart', 'line'] });
+
+//setting the callback function when google chart is done loading
+//in this case, the function "drawChart" will be called when google charts is done loading
 google.charts.setOnLoadCallback(drawChart);
 
+//initialize global variables for our charts, so we can access the charts anywhere in our code
+
+//burger by species chart variable
 var burgerBySpeciesChart = null;
+
+//burger by sales chart variable
 var burgerSalesChart = null;
+
+//sales by specie chart variable
 var salesBySpecieChart = null;
+
+//sales by burger & time chart variable
 var burgerSalesByTimeChart = null;
+
+//sales by specie & time
 var specieSalesByTimeChart = null;
 
+
+//chart options for burger by species chart
 var burgerBySpeciesChartOptions = {
     title: 'Burger by Specie',
     titleTextStyle: { color: '#573e7c', fontName: 'Century Gothic', bold: true, fontSize: '20' },
@@ -71,6 +116,7 @@ var burgerBySpeciesChartOptions = {
 
 };
 
+//chart options for burger by sales chart
 var burgerSalesChartOptions = {
     title: 'Burger Sales',
     titleTextStyle: { color: '#573e7c', fontName: 'Century Gothic', bold: true, fontSize: '20' },
@@ -153,34 +199,61 @@ var specieSalesByTimeChartOptions = {
     }
 }
 
+
+/*
+    function to draw initially the charts
+    burger by species chart
+    burger by sales chart 
+    sales by specie chart
+    burger sales by date chart and
+    specie sales by date chart
+    base on the charts data
+    the user has uploaded
+*/
 function drawChart() {
+
+    //initialize chart data for chart burger by species
     var data = google.visualization.arrayToDataTable([
-        ['Burgers', 'Species'],
-        [0, 0]
+        ['Burgers', 'Species'], //chart legends
+        [0, 0] //initial data, 0 for burgers & 0 for species
     ]);
+
+    //initialize bar chart for burger by species chart
     burgerBySpeciesChart = new google.visualization.BarChart($('#burger-by-species-chart')[0]);
+
+    //then draw the chart to the DOM with the initial data and chart options
     burgerBySpeciesChart.draw(data, burgerBySpeciesChartOptions);
 
+    //initialize chart data for chart burger by sales
     data = google.visualization.arrayToDataTable([
-        ['Burgers', 'Sales'],
-        [0, 0]
+        ['Burgers', 'Sales'], //chart legends
+        [0, 0] //initial data, 0 for burgers & 0 for sales
     ]);
 
+    //initialize bar chart for burger by sales chart
     burgerSalesChart = new google.visualization.BarChart($('#burger-sales-chart')[0]);
+
+    //then draw the chart to the DOM with the initial data and chart options
     burgerSalesChart.draw(data, burgerSalesChartOptions);
 
+    //initialize chart data for chart burger by sales
     data = google.visualization.arrayToDataTable([
-        ['Specie', 'Burger'],
+        ['Specie', 'Burger'], //chart legends
         [0, 0]
     ]);
 
+    //initialize column chart for burger by sales chart
     salesBySpecieChart = new google.visualization.ColumnChart($('#sales-by-specie-chart')[0]);
+
+    //then draw the chart to the DOM with the initial data and chart options
     salesBySpecieChart.draw(data, saleBySpecieOption);
 
-
+    //initialize chart data for chart burger sales by date
     data = new google.visualization.DataTable();
 
+    //legend for time of day
     data.addColumn('timeofday', 'Time of Day');
+    //legend for sales
     data.addColumn('number', 'Sales');
 
     burgerSalesByTimeChart = new google.visualization.LineChart($('#burger-sales-by-time-chart')[0]);
@@ -196,8 +269,33 @@ function drawChart() {
     refreshCharts();
 }
 
-var dates = {};
+var dates = {}; //global variable for reconstructed sales data
 
+/*
+    structure:
+
+    {
+        @date : {
+            @hour : [@sales_entry1, @sales_entry2]
+        }
+    }
+
+    sample:
+
+    dates = {
+        '2019-07-01' : {
+            '08' : [
+                { 
+                    'datetime': '2019-07-01 08:00:32',
+                    'species' : 'Krab',
+                    'burger'  : 'Krabby Patty'
+                }
+            ]
+        }
+    }
+*/
+
+//pad left with 0 or any character
 String.prototype.padZero = function(len, c) {
     var s = this,
         c = c || '0';
@@ -205,33 +303,58 @@ String.prototype.padZero = function(len, c) {
     return s;
 }
 
+//global variable for current json data uploaded by the user
 var currentJsonData = null;
 
+
+/*
+    function to redraw charts according to the uploaded charts data
+    and add values to the date picker according to the available sales dates
+*/
 function refreshCharts() {
+
+    //get the chart data in a form of text uploaded by the user in the localStorage with the key "charts_data"
     var text = localStorage.getItem('charts_data');
 
+    /*
+
+        then parse the charts data text to JSON format and assign it to the global variable
+        "currentJsonData" so we can manipulate and access the data anywhere
+    */
     currentJsonData = $.parseJSON(text);
 
+    //destroy date picker so we can add new data
     $('#date-select').datepicker('destroy');
 
+    //reinitialize global variable "dates", so we can add the sales data according to the uploaded chart data
     dates = {};
 
+    /*
+        initial charts data for
+        burger by specie chart
+        burger sales chart
+        sales by specie chart
+    */
     var data = [
-        ['', ''],
-        [0, 0]
+        ['', ''], //legends
+        [0, 0] //empty values for legend
     ];
 
     data = google.visualization.arrayToDataTable(data);
 
+    //draw the charts initially with empty legends and no data
     burgerBySpeciesChart.draw(data, burgerBySpeciesChartOptions);
     burgerSalesChart.draw(data, burgerSalesChartOptions);
     salesBySpecieChart.draw(data, google.charts.Bar.convertOptions(saleBySpecieOption));
 
-    $("#date-select").val($("#date-select option:eq(1)").val());
-    $("#date-select").trigger('change');
+    //$("#date-select").val($("#date-select option:eq(1)").val());
+    //$("#date-select").trigger('change');
 
+    //before redrawing the charts with the charts data, check first if there is any charts data available
+
+    //if charts data is available
     if (text) {
-
+            
         data = [];
 
         var json = $.parseJSON(text);
